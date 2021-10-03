@@ -6,7 +6,7 @@ module.exports = (Discord, client, message) => {
 
     const args = message.content.slice(prefix.length).split("/ +/"); //remove the prefix from the message and split the message into arguments
     const commandName = args[0].toLowerCase();
-    const command = client.commands.get(commandName); //get the command
+    const command = client.commands.get(commandName) || client.commands.find(a => a.aliases && a.aliases.includes(commandName)); //get the command (either by the command's name or one of its aliases)
 
     if (command) { //if the command exists, execute it
         command.execute(client, message, args, Discord);
