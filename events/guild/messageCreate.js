@@ -8,9 +8,10 @@ module.exports = (Discord, client, message) => {
     const commandName = args[0].toLowerCase();
     const command = client.commands.get(commandName) || client.commands.find(a => a.aliases && a.aliases.includes(commandName)); //get the command (either by the command's name or one of its aliases)
 
-    if (command) { //if the command exists, execute it
-        command.execute(client, message, args, Discord);
-    } else {
-        console.log("Command Not Found");
+    try {
+        command.execute(message, args, client, Discord); //if the command exists execute it
+    } catch (err) {
+        message.reply("There was an error while trying to execute this command");
+        console.error(err);
     }
 }
